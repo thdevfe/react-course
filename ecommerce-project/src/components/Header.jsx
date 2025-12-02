@@ -1,7 +1,9 @@
 import './Header.css';
 import { Link } from 'react-router';
 
-export function Header() {
+export function Header({ cartItems }) {
+    let totalQuantity = cartItems.reduce((total, item) => total + item.quantity, 0);
+
     return (
         <>
             <div className="header">
@@ -27,7 +29,7 @@ export function Header() {
 
                     <Link to="/checkout" className="cart-link header-link">
                         <img className="cart-icon" src="images/icons/cart-icon.png" />
-                        <div className="cart-quantity">3</div>
+                        <div className="cart-quantity">{totalQuantity}</div>
                         <div className="cart-text">Cart</div>
                     </Link>
                 </div>

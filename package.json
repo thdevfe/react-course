@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "datejs": "^1.0.0-rc3",
+    "dayjs": "^1.11.19"
+  }
+}
