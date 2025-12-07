@@ -1,17 +1,23 @@
 import { formatMoney } from '../../utils/money';
 import dayjs from 'dayjs';
 import { DeliveryOptions } from './DeliveryOptions';
+import axios from 'axios';
 
-export function OrderSummary({ cartItems, deliveryOptions }) {
+export function OrderSummary({ cartItems, deliveryOptions, loadCartItems }) {
     return (
         <div className="order-summary">
             {deliveryOptions.length > 0 && cartItems.map(cartItem => {
                 const selectedDeliveryOption = deliveryOptions.find(deliveryOption => deliveryOption.id === cartItem.deliveryOptionId);
 
+                const deleteCartItem = async () => {
+                    await axios.delete(`/api/cart-items/${cartItem.productId}`);
+                    await loadCartItems();
+                };
+
                 return (
                     <div key={cartItem.id} className="cart-item-container">
                         <div className="delivery-date">
-                            Delivery date: {dayjs(selectedDeliveryOption.estimateDeliveryTimeMs).format('dddd, MMMM D')}
+                            Delivery date: {dayjs(selectedDeliveryOption.estimatedDeliveryTimeMs).format('dddd, MMMM D')}
                         </div>
 
                         <div className="cart-item-details-grid">
@@ -33,17 +39,17 @@ export function OrderSummary({ cartItems, deliveryOptions }) {
                                     <span className="update-quantity-link link-primary">
                                         Update
                                     </span>
-                                    <span className="delete-quantity-link link-primary">
+                                    <span className="delete-quantity-link link-primary" onClick={deleteCartItem}>
                                         Delete
                                     </span>
                                 </div>
                             </div>
 
-                            <DeliveryOptions deliveryOptions={deliveryOptions} cartItem={cartItem} />
+                            <DeliveryOptions deliveryOptions={deliveryOptions} cartItem={cartItem} loadCartItems={loadCartItems} />
                         </div>
                     </div>
                 )
             })}
-        </div>
+        </div >
     )
 }
