@@ -30,7 +30,7 @@ export function OrderSummary({ cartItems, deliveryOptions, loadCartItems }) {
                                 </div>
 
                                 <div className="product-price">
-                                    ${formatMoney(cartItem.product.priceCents)}
+                                    {formatMoney(cartItem.product.priceCents)}
                                 </div>
                                 <div className="product-quantity">
                                     <span>
